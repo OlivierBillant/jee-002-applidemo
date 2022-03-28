@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 5</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 4
+        <small>Le contexte d'application</small>
+      </h1>
+	
+	
+	 
+    <h2>Les attributs d'application</h2>
+    
+		<p>
+		  	Le lien suivant pointe vers une servlet manipulant un attribut d'application :
+		  	<a href="../ServletManipulantUnAttributDApplication">/modules/module5/ServletManipulantUnAttributDApplication</a>.
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+
+		<pre class="prettyprint">
+		 	<code class="language-java">
+package fr.eni.javaee.module5;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletManipulantUnAttributDApplication
+ */
+@WebServlet("/modules/module5/ServletManipulantUnAttributDApplication")
+public class ServletManipulantUnAttributDApplication extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletManipulantUnAttributDApplication() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.getServletContext().setAttribute("attributDApplication", "Bonjour tout le monde");
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modules/module5/afficherAttributApplication.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+			</code>
+		 </pre>      
+
+		<p>Voici le code de la JSP afficherAttributApplication.jsp :</p>
+		
+		<pre class="prettyprint">
+		 	<code class="language-java">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Affichage d'un attribut d'application&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;
+		Voici la valeur de l'attribut d'application attributDApplication :
+		&lt;%=application.getAttribute("attributDApplication") %&gt;
+	&lt;/p&gt;
+	&lt;a href="demonstrations/demonstration4.html"&gt;Retour à la page d'accueil de la démonstration&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+			</code>		
+		</pre>
+		
+		<h2>Les paramètres d'application</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet lisant un paramètre d'application configuré dans le fichier web.xml:
+		  	<a href="../ServletLisantUnParametreDApplication">/modules/module5/ServletLisantUnParametreDApplication</a>.
+		</p>
+		
+		<p>Voici la configuration nécessaire dans le fichier web.xml</p>
+		
+		<pre class="prettyprint">
+		 	<code class="language-xml">
+&lt;context-param&gt;
+  &lt;description&gt;Un paramètre d'application&lt;/description&gt;
+  &lt;param-name&gt;EMAIL_ADMINISTRATEUR&lt;/param-name&gt;
+  &lt;param-value&gt;administrateur@monapplication.fr&lt;/param-value&gt;
+&lt;/context-param&gt;
+			</code>
+		 </pre>
+	 
+	 		
+		<p>Voici le code de la servlet:</p>
+	
+		<pre class="prettyprint">
+		 	<code class="language-java">
+package fr.eni.javaee.module5;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletLisantUnParametreDApplication
+ */
+@WebServlet("/modules/module5/ServletLisantUnParametreDApplication")
+public class ServletLisantUnParametreDApplication extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletLisantUnParametreDApplication() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String emailAdministrateur = this.getServletContext().getInitParameter("EMAIL_ADMINISTRATEUR");
+		PrintWriter out = response.getWriter();
+		out.println("L'email de l'administrateur est : " +emailAdministrateur);
+		out.println("L'information est accessible depuis toutes les servlets et toutes les JSP");
+		out.println("Dans une JSP, il faut écrire : application.getInitParameter(\"EMAIL_ADMINISTRATEUR\")");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+			</code>
+		 </pre>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

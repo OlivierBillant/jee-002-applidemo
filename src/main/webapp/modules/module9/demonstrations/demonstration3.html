@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 9</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 3
+        <small>Une réponse XML</small>
+      </h1>
+	
+		<h2>Concept</h2>      
+
+		<p>
+			Il suffit juste sur l'objet métier que l'on souhaite retourner en XML de placer l'annotation @XmlRootElement 
+			pour indiquer que cet objet peut être retourné au format XML.
+		</p>
+		
+		<p>
+			A la lecture de la requête HTTP émise par le navigateur, on comprend pourquoi la réponse sera en XML:
+		</p>
+		<img src="../images/entete_requete_par_defaut.png">
+		<p>
+			En effet, l'implémentation JAX-RS doit fournir un support pour le XML mais par pour le HTML.
+			C'est donc le premier format disponible.
+		</p>
+		
+		<h2>Lire la liste des crayons disponibles sur le serveur</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers un service web REST pour lire la liste complète des crayons disponibles sur le serveur:
+		  	<a href="../rest/crayons">/modules/module9/rest/crayons</a>.
+		</p>
+		
+		<p>
+		  	Le lien suivant pointe vers un service web REST pour lire le crayon d'identifiant 2 disponible sur le serveur:
+		  	<a href="../rest/crayons/2">/modules/module9/rest/crayons/2</a>.
+		</p>
+		
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>Crayon</li>
+				<p>
+					Observez bien l'annotation @XmlRootElement.
+				</p>
+				 <pre class="prettyprint">
+				 	<code class="language-java">
+package fr.eni.javaee.module9.bo;
+
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="crayon")
+public class Crayon implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private int id;
+	private String type;
+	private String couleur;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getCouleur() {
+		return couleur;
+	}
+	public void setCouleur(String couleur) {
+		this.couleur = couleur;
+	}
+	
+	public Crayon() {
+	}
+	public Crayon(String type, String couleur) {
+		super();
+		this.type = type;
+		this.couleur = couleur;
+	}
+	public Crayon(int id, String type, String couleur) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.couleur = couleur;
+	}
+	@Override
+	public String toString() {
+		return "Crayon [id=" + id + ", type=" + type + ", couleur=" + couleur + "]";
+	}
+	
+}
+
+					</code>
+				 </pre>
+
+				<li>GestionCrayons</li>
+				 <pre class="prettyprint">
+				 	<code class="language-java">
+package fr.eni.javaee.module9;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import fr.eni.javaee.module9.bo.Crayon;
+
+
+@Path("/crayons")
+public class GestionCrayons {
+
+	//Attention aux accès concurrents!
+	private static List&lt;Crayon&gt; listeCrayons = new ArrayList&lt;&gt;();
+	static
+	{
+		listeCrayons.add(new Crayon(1, "bille", "bleu"));
+		listeCrayons.add(new Crayon(2, "plume", "vert"));
+	}
+	
+	@GET
+	public List&lt;Crayon&gt; getCrayons()
+	{
+		return listeCrayons;
+	}
+	
+	@GET
+	@Path("/{id : \\d+}")
+	public Crayon getCrayon(@PathParam("id") int id)
+	{
+		System.out.println(id);
+		Crayon crayonARetourner=null;
+		for (Crayon crayon : listeCrayons) {
+			if(crayon.getId()==id)
+			{
+				crayonARetourner=crayon;
+			}
+		}
+		return crayonARetourner;
+	}
+}
+					</code>
+				 </pre>
+			</ol>		
+	
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

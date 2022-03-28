@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 10</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 1
+        <small>Le déploiement implicite</small>
+      </h1>
+	
+	<h3>Génération du WAR</h3>
+	<p>
+		Faites-un clic droit sur le projet à déployer est cliquez sur le menu <b>Export => WAR file</b>. L'écran suivant apparait pour définir les caractéristiques de l'export:
+	</p>
+    <div><img src="../images/export_war_file.png"/></div>
+	
+	<h3>Déploiement de l'application sur un Tomcat autonome</h3>
+	
+	<p>Commencez par éteindre le serveur Tomcat piloté par votre IDE.</p>
+	<p>Déposez ensuite votre archive dans le répertoire webapps de votre Tomcat:</p>
+	<div><img src="../images/depot_webapps.png"/></div>
+	
+    <p>Démarrez ensuite Tomcat à l'aide du script startup.bat présent dans le répertoire bin de Tomcat. Observez le déploiement de l'archive :</p>
+    <div><img src="../images/demarrage_deploiement.png"/></div>
+    
+    <p>
+    	Naviguez vers votre application avec l'URL suivante :
+    	<a href="http://localhost:8080/AppliDemo">http://localhost:8080/AppliDemo</a>
+    </p>
+    <p>
+    	Si vous souhaitez que votre application soit accessible au travers de l'URL http://localhost:8080/TutoJavaEE, il suffit de renommer l'archive TutoJavaEE.war et de redémarrer Tomcat.
+    </p>
+    
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

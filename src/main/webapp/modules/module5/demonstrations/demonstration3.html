@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 5</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 3
+        <small>La session</small>
+      </h1>
+	
+		<h2>Configuration</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet manipulant la session (faites un F12 pour visualiser le cookie JSESSIONID si les cookies sont autorisés):
+		  	<a href="../ServletManipulationSession">/modules/module5/ServletManipulationSession</a>.
+		</p>
+		<p>
+			Cliquez sur les liens pour voir les différents comportement avec les cookies activés et désactivés
+		</p>
+		
+		<p>Voici le code de la servlet:</p>
+
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module5;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class ServletManipulationSession
+ */
+@WebServlet("/modules/module5/ServletManipulationSession")
+public class ServletManipulationSession extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletManipulationSession() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpSession session = request.getSession();
+			int compteurAccesPendantSession=0;
+			if(session.getAttribute("compteurAcces")!=null)
+			{
+				compteurAccesPendantSession=(int)session.getAttribute("compteurAcces");
+			}
+			compteurAccesPendantSession+=1;
+			session.setAttribute("compteurAcces", compteurAccesPendantSession);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modules/module5/afficherSession.jsp");
+			rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+      
+     <p>Voici le code de la JSP:</p>
+     
+	 <pre class="prettyprint">
+	 	<code class="language-xml">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Affichage du contenu de la session&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;%
+		if(session.getAttribute("compteurAcces")!=null)
+		{
+			int compteurAcces = (int)session.getAttribute("compteurAcces");
+	%&gt;
+			&lt;p&gt;Nombre d'accès : &lt;%=compteurAcces%&gt;&lt;/p&gt; 
+	&lt;%
+		}
+		else
+		{
+	%&gt;
+			&lt;p&gt;Le compteur d'accès n'existe pas en session&lt;/p&gt;
+	&lt;%
+		}
+	%&gt;
+	&lt;p&gt;
+		Avec le lien suivant, le suivi de session n'est assuré que si les cookies sont autorisés :
+		&lt;a href="&lt;%=request.getContextPath()%&gt;/modules/module5/ServletManipulationSession"&gt;ServletManipulationSession (sans réécriture d'URL)&lt;/a&gt;
+	&lt;/p&gt;
+	&lt;p&gt;
+		Avec le lien suivant, le suivi de session est assuré même si les cookies ne sont pas autorisés :
+		&lt;a href="&lt;%=response.encodeURL(request.getContextPath()+"/modules/module5/ServletManipulationSession")%&gt;"&gt;ServletManipulationSession (avec réécriture d'URL)&lt;/a&gt;
+	&lt;/p&gt;
+	&lt;p&gt;
+		Voici l'URL réécrite :
+		&lt;%=response.encodeURL(request.getContextPath()+"/modules/module5/ServletManipulationSession")%&gt;
+	&lt;/p&gt;
+	&lt;p&gt;
+		&lt;a href="demonstrations/demonstration3.html"&gt;Retour à la page d'accueil de la démonstration&lt;/a&gt;
+	&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;     
+		</code>
+	 </pre>
+     
+     
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 6</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 1
+        <small>Les inclusions dans une JSP</small>
+      </h1>
+	
+		<h2>L'exemple du fonctionnement</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet redirigeant l'utilisateur vers une JSP composée d'inclusions:
+		  	<a href="../ServletRedirigeantVersJSPAvecInclusion">/modules/module6/ServletRedirigeantVersJSPAvecInclusion</a>.
+		</p>
+		<p>
+			Les différents fichiers JSP et HTML sont dans le répertoire /WEB-INF/modules/module6.
+		</p>		
+		<p>
+			La page pageInclusions.jsp inclu les fichiers suivants:
+			<ol>
+				<li>Le fichier entete.html (inclusion statique avec la directive include).</li>
+				<li>Le fichier fragmentIncluAvecDirectiveInclude.jspf (inclusion statique avec la directive include).</li>
+				<li>Le fichier fragmentIncluAvecBaliseInclude.jsp (inclusion dynamique avec la balise include).</li>
+				<li>Le fichier piedDePage.html (inclusion statique avec la directive include).</li>
+			</ol>
+		</p>
+		
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>ServletRedirigeantVersJSPAvecInclusion</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module6;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletRedirigeantVersJSPAvecInclusion
+ */
+@WebServlet("/modules/module6/ServletRedirigeantVersJSPAvecInclusion")
+public class ServletRedirigeantVersJSPAvecInclusion extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletRedirigeantVersJSPAvecInclusion() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modules/module6/pageAvecInclusions.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+						</code>
+					</pre>
+
+				<li>pageAvecInclusions.jsp</li>
+					<pre class="prettyprint">
+					 	<code class="language-xml">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Cette page est composée d'éléments inclus&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;!-- 
+		La valeur de l'attribut file est un nom de fichier dans le système de fichier. 
+		Ce n'est pas une URL.
+		Il est à destination du Moteur Jasper 2 pour qu'il puisse le recopier dans le fichier pageAvecInclusion.jsp 
+	--&gt;
+	&lt;%@include file="entete.html" %&gt;
+	
+	&lt;%
+		int variableUtiliseeDansFragment = 123;
+	%&gt;
+	&lt;%@include file="fragmentIncluAvecDirectiveInclude.jspf" %&gt;
+	
+	&lt;!-- 
+		La valeur de l'attribut page est une URL.
+	--&gt;
+	&lt;%
+		request.setAttribute("attribut", variableUtiliseeDansFragment);
+	%&gt;
+	&lt;jsp:include page="/WEB-INF/modules/module6/fragmentIncluAvecBaliseInclude.jsp"&gt;
+		&lt;jsp:param value="&lt;%=variableUtiliseeDansFragment%&gt;" name="parametre"/&gt;
+	&lt;/jsp:include&gt;
+	
+	&lt;div&gt;
+		&lt;a href="demonstrations/demonstration1.html"&gt;Retour&lt;/a&gt;
+	&lt;/div&gt;
+	
+	&lt;%@include file="piedDePage.html" %&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+						</code>
+					</pre>
+				
+
+				<li>entete.html</li>
+					<pre class="prettyprint">
+					 	<code class="language-xml">
+&lt;h1 style="text-align: center"&gt;TITRE DE MA PAGE&lt;/h1&gt;
+						</code>
+					</pre>
+
+				<li>fragmentIncluAvecDirectiveInclude.jspf</li>
+					<pre class="prettyprint">
+					 	<code class="language-xml">
+&lt;h3&gt;Voici la valeur lue dans le fichier fragmentIncluAvecDirectiveInclude.jspf:&lt;/h3&gt;
+&lt;p&gt;
+&lt;!-- 
+	Attention, ce code ne fonctionnera que si le fragment 
+	est inclu avec la directive include dans le fichier pageAvecInclusions.jsp.
+	
+	En effet, le code de ce fichier est recopié 
+	après la déclaration de la variable variableUtiliseeDansFragment 
+	au moment de la transformation.
+--&gt;
+variableUtiliseeDansFragment=&lt;%=variableUtiliseeDansFragment%&gt;
+&lt;/p&gt;
+						</code>
+					</pre>
+
+				<li>fragmentIncluAvecBaliseInclude.jsp</li>
+					<pre class="prettyprint">
+					 	<code class="language-xml">
+&lt;h3&gt;Voici les informations lues dans le fichier fragmentIncluAvecBaliseInclude.jsp:&lt;/h3&gt;
+&lt;p&gt;
+&lt;%
+	String bonjour = "bonjour tout le monde";
+%&gt;
+&lt;p&gt;
+	&lt;%=bonjour %&gt;
+&lt;/p&gt;
+&lt;!-- 
+	il est ici impossible de lire la variable variableUtiliseeDansFragment.
+	En effet, elle n'est pas transmise lors de l'include dynamique.
+	Pour pour pouvoir la lire, il faudrait soit :
+		-la transférer en attribut de requête (request.setAttribute/request.getAttribute)
+		-la transférer à l'aide de la balise jsp:param. La lecture se faisant avec request.getParameter()
+--&gt;
+
+&lt;%-- 	&lt;%=variableUtiliseeDansFragment %&gt; Erreur de compilation--%&gt;
+&lt;p&gt;
+	Lecture du paramètre "parametre" : &lt;%=request.getParameter("parametre") %&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Lecture de l'attribut "attribut" : &lt;%=request.getAttribute("attribut") %&gt;
+&lt;/p&gt;
+						</code>
+					</pre>
+
+				<li>piedDePage.html</li>
+					<pre class="prettyprint">
+					 	<code class="language-xml">
+&lt;footer&gt;
+	&lt;p style="text-align: center"&gt;Copyright&copy; ENI Ecole 2018&lt;/p&gt;
+&lt;/footer&gt;			
+						</code>
+					</pre>
+
+			</ol>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

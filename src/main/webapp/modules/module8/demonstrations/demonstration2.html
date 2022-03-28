@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 8</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 2
+        <small>Le formatage des dates</small>
+      </h1>
+
+	 	<h2>Afficher une date dans la langue et le fuseau horaire voulu</h2>
+
+		<p>
+		  	Le lien suivant pointe vers une JSP affichant la date et l'heure courante :
+		  	<a href="../formatageDates">/modules/module8/formatageDates</a>.
+		</p>
+
+			<ol>
+				<li>formatageDates.jsp présent dans le répertoire /WEB-INF/modules/module8</li>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+&lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Formatage des dates&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h2&gt;L'heure en France&lt;/h2&gt;
+	&lt;p&gt;
+		Affichage de la date actuelle avec la langue par défaut :
+		&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" dateStyle="full"/&gt;
+	&lt;/p&gt;
+	&lt;p&gt;
+		Affichage de l'heure actuelle avec la langue par défaut :
+		&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" type="time" timeStyle="short"/&gt;
+	&lt;/p&gt;
+	
+	&lt;p&gt;
+		Affichage de la date atuelle avec la langue anglaise :
+		&lt;fmt:setLocale value="en"/&gt;
+		&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" dateStyle="full"/&gt;
+	&lt;/p&gt;
+	&lt;p&gt;
+		Affichage de l'heure actuelle avec la langue anglaise :
+		&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" type="time" timeStyle="short"/&gt;
+	&lt;/p&gt;
+	
+	&lt;h2&gt;L'heure à New York&lt;/h2&gt;
+	&lt;fmt:timeZone value="America/New_York"&gt;
+		&lt;p&gt;
+			&lt;fmt:setLocale value="es"/&gt;
+			Affichage de l'heure actuelle avec la langue espagnole dans le fuseau horaire de New York:
+			&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" dateStyle="full"/&gt;
+		&lt;/p&gt;
+		&lt;p&gt;
+			Affichage de l'heure actuelle avec la langue espagnole dans le fuseau horaire de New York:
+			&lt;fmt:formatDate value="${GregorianCalendar.getInstance().getTime()}" type="time" timeStyle="short"/&gt;
+		&lt;/p&gt;
+	&lt;/fmt:timeZone&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;
+					</code>
+				 </pre>
+
+				<li>web.xml pour la configuration de l'accès à la JSP</li>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;servlet&gt;
+    &lt;servlet-name&gt;JSPformatageDates&lt;/servlet-name&gt;
+    &lt;jsp-file&gt;/WEB-INF/modules/module8/formatageDates.jsp&lt;/jsp-file&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+  	&lt;servlet-name&gt;JSPformatageDates&lt;/servlet-name&gt;
+  	&lt;url-pattern&gt;/modules/module8/formatageDates&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+					</code>
+				 </pre>
+
+			</ol>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

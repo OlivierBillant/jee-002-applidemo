@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+</head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 2</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">TP 1
+        <small>Rechercher un nombre tiré au sort</small>
+      </h1>
+	
+	 <h2>Enoncé</h2>
+	 
+	 <p>A partir d'un nouveau Dynamic Web Project, créer l'application suivante.</p>
+	 <h3>Description fonctionnelle</h3>
+	 <p>
+	 	L'application doit permettre à un utilisateur de trouver le nombre tiré au sort par le serveur. 
+		Ce nombre est compris entre 0 et 10.
+	 </p>
+	 <p>
+		Le résultat indique seulement si l'utilisateur a réussi ou pas. 
+	 </p>
+	 <p>
+		En cas d'échec, l'utilisateur peut retenter sa chance. 
+		Il n'y a pas de limite au niveau du nombre d'essais et ils ne sont pas comptabilisés.
+
+	 </p>
+	 <h3>Eléments d'architecture</h3>
+     <p>
+     	L'application se nomme TPRechercherNombre.
+     </p>
+     <p>
+     	Elle est composé des éléments suivants :
+     	<ul>
+     		<li>Un formulaire de saisie statique permettant à l'utilisateur de tenter sa chance.</li>
+     		<li>Une servlet effectuant le traitement.</li>
+     		<li>Une page HTML statique permettant d'informer le joueur de sa victoire.</li>
+     		<li>Une page HTML statique permettant d'informer le joueur de son échec et proposant un lien pour retenter sa chance.</li>
+     	</ul>
+     	Proposition de maquette pour bien comprendre l'enchaînement attendu :
+     	<img src="../images/TP1_JAVA_EE_Module2.png"/>
+     </p>
+     
+     <h3>Étape</h3>
+	     <p>
+	     	Les étapes de réalisation par ordre de priorité :
+	     	<ol>
+	     		<li>Créer les 3 pages HTML et la servlet.</li>
+	     		<li>Soumettre le choix de l'utilisateur à la servlet qui affichera le choix dans la console Tomcat (System.out.println()).</li>
+	     		<li>Pour rejouer, rediriger temporairement vers la page d'échec, même si le joueur a trouvé le nombre.</li>
+	     		<li>Étape facultative : Écrire le traitement métier dans la servlet et choisir la redirection adaptée.</li>
+	     	</ol>
+	     </p>
+	     
+     <h3>Pour aller plus loin</h3>
+     <p>
+     	Si plusieurs joueurs jouent, seul le premier qui trouve le nombre gagne. Les autres joueurs trouvant plus tardivement le nombre perdent malgré tout.
+     </p>
+     
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

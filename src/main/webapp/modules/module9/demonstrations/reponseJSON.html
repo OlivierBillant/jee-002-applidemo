@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Obtenir une réponse au format JSON</title>
+</head>
+<body>
+	<p>
+		Le bouton suivant permet d'obtenir d'effectuer une requête AJAX et d'obtenir une réponse au format JSON.
+		La requête pointe vers l'URL /modules/module9/rest/crayons.
+	</p>
+	<div>
+		<input type="button" value="Exécuter" onclick="executerRequete()" />
+	</div>
+	
+	<div id="succes" style="color:green"></div>
+	<div id="echec" style="color:red"></div>
+	
+	<div>
+		<a href="demonstration4.html">Retour</a>
+	</div>
+	
+	
+	
+	<script type="text/javascript">
+	function createXHR() {
+	    if (window.XMLHttpRequest)    //  Objet standard
+	    {
+	        xhr = new XMLHttpRequest();     //  Firefox, Safari, ...
+	    }
+	    else if (window.ActiveXObject)      //  Internet Explorer
+	    {
+	        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    return xhr;
+	}
+
+	function executerRequete()
+	{
+	    var xhr = createXHR();
+	    xhr.onreadystatechange = function()
+	    {
+	        if (xhr.readyState == 4)
+	        {
+	            if (xhr.status == 200)
+	            {
+	            	succes(xhr.responseText);//xhr.responseXML si réponse au format XML
+	            }
+	            else
+	            {
+	                echec(xhr.status, xhr.responseText);
+	            }
+	        }
+	    };
+
+	    xhr.open("GET", "/AppliDemo/modules/module9/rest/crayons", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}	
+	
+	function succes(reponse)
+	{
+		document.getElementById("succes").innerHTML=reponse;
+		document.getElementById("echec").innerHTML="";
+	}
+	
+	function echec(codeReponse, reponse)
+	{
+		document.getElementById("echec").innerHTML=reponse;
+		document.getElementById("succes").innerHTML="";
+	}
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Envoyer des informations au serveur</title>
+</head>
+<body>
+	<p>
+		Le bouton suivant permet d'ajouter un crayon en appelant l'URL suivante avec la méthode POST : /modules/module9/rest/crayons.
+		Le retour est un flux JSON contenant le crayon créé.
+	</p>
+	<div>
+		<input type="button" value="Ajouter" onclick="ajouter()" />
+	</div>
+	
+	<p>
+		Le bouton suivant permet de modifier le crayon d'identifiant 2 en appelant l'URL suivante avec la méthode PUT : /modules/module9/rest/crayons/2.
+		Le retour est un flux JSON contenant le crayon modifié.
+	</p>
+	<div>
+		<input type="button" value="Modifier" onclick="modifier()" />
+	</div>
+	
+	<p>
+		Le bouton suivant permet de supprimer le crayon d'identifiant 2 en appelant l'URL suivante avec la méthode DELETE : /modules/module9/rest/crayons/2.
+		Le retour est un boolean indiquant le succès ou l'échec.
+	</p>
+	<div>
+		<input type="button" value="Supprimer" onclick="supprimer()" />
+	</div>
+	
+	<p>
+		Le bouton suivant permet lister les crayons disponibles en appelant l'URL suivante avec le méthode GET : /modules/module9/rest/crayons.
+	</p>
+	<div>
+		<input type="button" value="Lister" onclick="lister()" />
+	</div>
+		
+	<div id="succes" style="color:green"></div>
+	<div id="echec" style="color:red"></div>
+	
+	<div>
+		<a href="demonstration5.html">Retour</a>
+	</div>
+	
+	
+	
+	<script type="text/javascript">
+	function createXHR() {
+	    if (window.XMLHttpRequest)    //  Objet standard
+	    {
+	        xhr = new XMLHttpRequest();     //  Firefox, Safari, ...
+	    }
+	    else if (window.ActiveXObject)      //  Internet Explorer
+	    {
+	        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    
+	    xhr.onreadystatechange = function()
+	    {
+	        if (xhr.readyState == 4)
+	        {
+	            if (xhr.status == 200)
+	            {
+	            	succes(xhr.responseText);//xhr.responseXML si réponse au format XML
+	            }
+	            else
+	            {
+	                echec(xhr.status, xhr.responseText);
+	            }
+	        }
+	    };
+	    return xhr;
+	}
+
+	function ajouter()
+	{
+	    var xhr = createXHR();
+
+		datasFormulaire = "type="+encodeURIComponent("valeurType")+"&couleur="+encodeURIComponent("valeurCouleur");
+	    
+	    xhr.open("POST", "/AppliDemo/modules/module9/rest/crayons/", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	    xhr.send(datasFormulaire);
+	}
+	
+	function modifier()
+	{
+	    var xhr = createXHR();
+
+		datasFormulaire = "type="+encodeURIComponent("nouveauType")+"&couleur="+encodeURIComponent("nouvelleCouleur");
+	    
+	    xhr.open("PUT", "/AppliDemo/modules/module9/rest/crayons/2", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	    xhr.send(datasFormulaire);
+	}
+	
+	function supprimer()
+	{
+	    var xhr = createXHR();   
+
+	    xhr.open("DELETE", "/AppliDemo/modules/module9/rest/crayons/2", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}
+	
+	function lister()
+	{
+	    var xhr = createXHR();   
+
+	    xhr.open("GET", "/AppliDemo/modules/module9/rest/crayons", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}
+	
+	function succes(reponse)
+	{
+		document.getElementById("succes").innerHTML=reponse;
+		document.getElementById("echec").innerHTML="";
+	}
+	
+	function echec(codeReponse, reponse)
+	{
+		document.getElementById("echec").innerHTML=reponse;
+		document.getElementById("succes").innerHTML="";
+	}
+	
+	</script>
+</body>
+</html>

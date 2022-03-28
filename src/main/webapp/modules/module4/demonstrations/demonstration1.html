@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 4</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 1
+        <small>La configuration et l'exploitation d'un pool de connexions</small>
+      </h1>
+	
+		<h2>Configuration du pool de connexions</h2>
+		
+		<ol>
+	 	<li>
+	 		<p>
+	 			Ajouter le pilote JDBC dans le répertoire /WEB-INF/lib de l'application.
+	  		</p>
+	  		<img alt="" src="../images/piloteJDBC.png">
+	  		<p>
+	  			Observer l'ajout automatique de la librairie dans le noeud "Web App Libraries". 
+	  			Cela signifie qu'elle sera automatiquement déployée dans le répertoire de déploiement de l'application. 
+	  		</p>
+	  	</li>
+	  	<li>
+	  		<p>
+	  			Créer le fichier context.xml dans le répertoire META-INF.
+	  		</p>
+	  		<img alt="" src="../images/context_xml.png">
+	  	</li> 	
+	  	<li>
+	  		<p>
+	  			Configurer un pool de connexion dans ce fichier avec les caractéristiques suivantes : 
+	  		</p>
+	  		
+	  		<pre class="prettyprint">
+			 	<code class="language-xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Context&gt;
+	&lt;Resource
+		name="jdbc/pool_cnx"
+		
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		type="javax.sql.DataSource"
+		
+		url="jdbc:sqlserver://localhost;databasename=BDD_DEMO"
+		username="utilisateurBDD"
+		password="Pa$$w0rd"
+		
+		maxTotal="100"
+		maxIdle="30"
+		maxWaitMillis="10000"
+	/&gt;
+&lt;/Context&gt;
+				</code>
+			</pre>
+	  	</li>
+	  </ol>
+	  
+	  <h2>Mise en place de la base de données</h2>
+	  
+	  <ol>
+	  	<li>
+	  		<p>
+	  			Créer la base de données BDD_DEMO et exécuter le script SQL suivant :
+	  		</p>
+	  		<pre class="prettyprint">
+			 	<code class="language-sql">
+CREATE TABLE AVIS
+(
+	identifiant int IDENTITY(1,1) CONSTRAINT PK_AVIS PRIMARY KEY,
+	description varchar(150) NOT NULL,
+	note tinyint NOT NULL CONSTRAINT CK_AVIS_note CHECK(note between 1 and 5)
+);	
+				</code>
+			</pre>
+	  	</li>
+	  	<li>
+	  		<p>
+	  			Pour rappel, voici la création d'un utilisateur ayant les droits de lecture et d'écriture sur la base de données BDD_DEMO:
+	  		</p>
+	  		<p>Etape 1:</p>
+	  		<img alt="" src="../images/creation_utilisateur_etape_1.png">
+	  		<p>Etape 2:</p>
+	  		<img alt="" src="../images/creation_utilisateur_etape_2.png">
+	  	</li> 	
+     </ol>
+		
+		
+		<h2>Exploitation du pool de connexions</h2>
+		
+		
+		
+ 		<p>
+ 			Le lien suivant pointe vers une servlet se connectant à la base de données en utilisant le pool de connexions :
+  			<a href="../ServletTestPoolConnexion">/modules/module4/ServletTestPoolConnexion</a>
+  		</p>
+  		
+  		<p>Voici le code de la servlet:</p>
+
+  		<pre class="prettyprint">
+		 	<code class="language-java">
+package fr.eni.javaee.module4;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+
+/**
+ * Servlet implementation class ServletTestPoolConnexion
+ */
+@WebServlet("/modules/module4/ServletTestPoolConnexion")
+public class ServletTestPoolConnexion extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletTestPoolConnexion() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out= response.getWriter();
+		//Création d'un objet de type Context permettant la recherche d'une ressource nommée dans l'arbre JNDI
+		try {
+			Context context = new InitialContext();
+			//Recherche de la ressource
+			DataSource dataSource = (DataSource)context.lookup("java:comp/env/jdbc/pool_cnx");
+			//Demande d'une connexion. La méthode getConnection met la demande en attente tant qu'il n'y a pas de connexion disponible
+			Connection cnx = dataSource.getConnection();
+			//Exploitation de la connexion
+			out.print("La connexion est "+ (cnx.isClosed()?"fermée":"ouverte")+".");
+			//Libération de la connexion. Elle n'est pas fermée mais remise dans le pool
+			cnx.close();
+		} catch (NamingException | SQLException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+			out.println("Une erreur est survenue lors de l'utilisation de la base de données : " + e.getMessage());
+		}
+		out.close();
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+
+			</code>
+		</pre>
+     
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 9</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 5
+        <small>L'écriture</small>
+      </h1>
+	
+		<p>
+			Le lien suivant pointe vers la page HTML ecriture.html permettant d'effectuer des requêtes AJAX pour effectuer des tâches d'écriture (ajout, modification, suppression):
+		  	<a href="ecriture.html">ecriture.html</a>.
+		</p>
+
+
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>GestionCrayons</li>
+					<p>
+						Cette classe est modifiée pour ajouter 3 méthodes correspondant à l'ajout, la modification et la suppression.
+					</p>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+	@POST
+	public Crayon ajouterCrayon(@FormParam("type") String type, @FormParam("couleur") String couleur)
+	{
+		Crayon crayon = new Crayon(new Random().nextInt(100),type, couleur);
+		listeCrayons.add(crayon);
+		return crayon;
+	}
+	
+	@PUT
+	@Path("/{id:\\d+}")
+	public Crayon modifierCrayon(@PathParam("id") int id, @FormParam("type") String type, @FormParam("couleur") String couleur)
+	{
+		Crayon crayonAModifier=null;
+		for (Crayon crayon : listeCrayons) {
+			if(crayon.getId()==id)
+			{
+				crayon.setType(type);
+				crayon.setCouleur(couleur);
+				crayonAModifier=crayon;
+			}
+		}
+		return crayonAModifier;
+	}
+	
+	@DELETE
+	@Path("/{id:\\d+}")
+	public boolean supprimerCrayon(@PathParam("id") int id)
+	{
+		Crayon crayonASupprimer=null;
+		for (Crayon crayon : listeCrayons) {
+			if(crayon.getId()==id)
+			{
+				crayonASupprimer=crayon;
+			}
+		}
+		return listeCrayons.remove(crayonASupprimer);
+	}				
+					</code>
+				 </pre>
+
+				
+				<li>ecriture.html</li>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Envoyer des informations au serveur&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;
+		Le bouton suivant permet d'ajouter un crayon en appelant l'URL suivante avec la méthode POST : /modules/module9/rest/crayons.
+		Le retour est un flux JSON contenant le crayon créé.
+	&lt;/p&gt;
+	&lt;div&gt;
+		&lt;input type="button" value="Ajouter" onclick="ajouter()" /&gt;
+	&lt;/div&gt;
+	
+	&lt;p&gt;
+		Le bouton suivant permet de modifier le crayon d'identifiant 2 en appelant l'URL suivante avec la méthode PUT : /modules/module9/rest/crayons/2.
+		Le retour est un flux JSON contenant le crayon modifié.
+	&lt;/p&gt;
+	&lt;div&gt;
+		&lt;input type="button" value="Modifier" onclick="modifier()" /&gt;
+	&lt;/div&gt;
+	
+	&lt;p&gt;
+		Le bouton suivant permet de supprimer le crayon d'identifiant 2 en appelant l'URL suivante avec la méthode DELETE : /modules/module9/rest/crayons/2.
+		Le retour est un boolean indiquant le succès ou l'échec.
+	&lt;/p&gt;
+	&lt;div&gt;
+		&lt;input type="button" value="Supprimer" onclick="supprimer()" /&gt;
+	&lt;/div&gt;
+	
+	&lt;p&gt;
+		Le bouton suivant permet lister les crayons disponibles en appelant l'URL suivante avec le méthode GET : /modules/module9/rest/crayons.
+		Le retour est un boolean indiquant le succès ou l'échec.
+	&lt;/p&gt;
+	&lt;div&gt;
+		&lt;input type="button" value="Lister" onclick="lister()" /&gt;
+	&lt;/div&gt;
+		
+	&lt;div id="succes" style="color:green"&gt;&lt;/div&gt;
+	&lt;div id="echec" style="color:red"&gt;&lt;/div&gt;
+	
+	&lt;div&gt;
+		&lt;a href="demonstration5.html"&gt;Retour&lt;/a&gt;
+	&lt;/div&gt;
+	
+	
+	
+	&lt;script type="text/javascript"&gt;
+	function createXHR() {
+	    if (window.XMLHttpRequest)    //  Objet standard
+	    {
+	        xhr = new XMLHttpRequest();     //  Firefox, Safari, ...
+	    }
+	    else if (window.ActiveXObject)      //  Internet Explorer
+	    {
+	        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    
+	    xhr.onreadystatechange = function()
+	    {
+	        if (xhr.readyState == 4)
+	        {
+	            if (xhr.status == 200)
+	            {
+	            	succes(xhr.responseText);//xhr.responseXML si réponse au format XML
+	            }
+	            else
+	            {
+	                echec(xhr.status, xhr.responseText);
+	            }
+	        }
+	    };
+	    return xhr;
+	}
+
+	function ajouter()
+	{
+	    var xhr = createXHR();
+
+		datasFormulaire = "type="+encodeURIComponent("valeurType")+"&couleur="+encodeURIComponent("valeurCouleur");
+	    
+	    xhr.open("POST", "/AppliDemo/modules/module9/rest/crayons/", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	    xhr.send(datasFormulaire);
+	}
+	
+	function modifier()
+	{
+	    var xhr = createXHR();
+
+		datasFormulaire = "type="+encodeURIComponent("nouveauType")+"&couleur="+encodeURIComponent("nouveauCouleur");
+	    
+	    xhr.open("PUT", "/AppliDemo/modules/module9/rest/crayons/2", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	    xhr.send(datasFormulaire);
+	}
+	
+	function supprimer()
+	{
+	    var xhr = createXHR();   
+
+	    xhr.open("DELETE", "/AppliDemo/modules/module9/rest/crayons/2", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}
+	
+	function lister()
+	{
+	    var xhr = createXHR();   
+
+	    xhr.open("GET", "/AppliDemo/modules/module9/rest/crayons", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}
+	
+	function succes(reponse)
+	{
+		document.getElementById("succes").innerHTML=reponse;
+		document.getElementById("echec").innerHTML="";
+	}
+	
+	function echec(codeReponse, reponse)
+	{
+		document.getElementById("echec").innerHTML=reponse;
+		document.getElementById("succes").innerHTML="";
+	}
+	
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+					</code>
+				 </pre>
+			</ol>		
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 7</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 1
+        <small>Les filtres</small>
+      </h1>
+	
+		<h2>Interdire l'accès à certaines ressources en utilisant les filtres</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet soumise à l'exécution d'un filtre vérifiant s'il y a le mot "interdit" dans l'URL.
+		  	Comme il n'y est pas, la servlet est exécutée :
+		  	<a href="../ServletAutorisee">/modules/module7/ServletAutorisee</a>.
+		</p>
+		<p>
+		  	Le lien suivant pointe vers une servlet soumise au même filtre.
+		  	Comme le mot "interdit" est retrouvée, l'utilisateur est redirigée vers une page d'erreur avec le code 403 :
+		  	<a href="../ServletInterdite">/modules/module7/ServletInterdite</a>.
+		</p>
+	
+	 <h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>FiltreRessourcesInterdites</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module7;
+
+import java.io.IOException;
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet Filter implementation class FiltreRessourcesInterdites
+ */
+@WebFilter(dispatcherTypes = {
+				DispatcherType.REQUEST, 
+				DispatcherType.FORWARD, 
+				DispatcherType.INCLUDE, 
+				DispatcherType.ERROR
+		}, 
+		urlPatterns = { "/modules/module7/*" })
+public class FiltreRessourcesInterdites implements Filter {
+
+    /**
+     * Default constructor. 
+     */
+    public FiltreRessourcesInterdites() {
+
+    }
+
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+	}
+
+	/**
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		System.out.println(httpRequest.getServletPath());
+		if(!httpRequest.getServletPath().toLowerCase().contains("interdit"))
+		{
+			//Laissons passer la requête vers là où elle doit aller
+			chain.doFilter(request, response);
+		}
+		else
+		{
+			//Renvoyons une 403 à l'utilisateur
+			HttpServletResponse httpResponse = (HttpServletResponse) response;
+			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+		}
+	}
+
+	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+
+	}
+
+}
+						</code>
+					</pre>
+				
+				<li>ServletAutorisee</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module7;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletAutorisee
+ */
+@WebServlet("/modules/module7/ServletAutorisee")
+public class ServletAutorisee extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletAutorisee() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("La servlet autorisée retourne ce texte");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+						</code>
+					</pre>
+				
+				<li>ServletInterdite</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module7;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletInterdite
+ */
+@WebServlet("/modules/module7/ServletInterdite")
+public class ServletInterdite extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletInterdite() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("La servlet est interdite et ce texte ne devrait jamais s'afficher sinon, il y a un problème");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+						</code>
+					</pre>
+					
+				<li>web.xml</li>
+					<pre class="prettyprint">
+					 	<code class="language-html">
+&lt;error-page&gt;
+  &lt;error-code&gt;403&lt;/error-code&gt;
+  &lt;location&gt;/modules/module7/demonstrations/erreur403.html&lt;/location&gt;
+&lt;/error-page&gt;
+						</code>
+					</pre>
+					
+				<li>/WebContent/modules/module6/demonstrations/erreur403.html</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+  &lt;head&gt;
+
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"&gt;
+    &lt;meta name="description" content=""&gt;
+    &lt;meta name="author" content=""&gt;
+
+    &lt;title&gt;Application de démonstration&lt;/title&gt;
+
+    &lt;!-- Bootstrap core CSS --&gt;
+    &lt;link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"&gt;
+
+    &lt;!-- Custom styles for this template --&gt;
+    &lt;link href="../../css/4-col-portfolio.css" rel="stylesheet"&gt;
+    
+ &lt;/head&gt;
+
+  &lt;body&gt;
+
+    &lt;!-- Navigation --&gt;
+    &lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"&gt;
+      &lt;div class="container"&gt;
+        &lt;a class="navbar-brand" href="module.html"&gt;Application de démonstration - Page d'erreur&lt;/a&gt;
+        &lt;button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"&gt;
+          &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;div class="collapse navbar-collapse" id="navbarResponsive"&gt;
+          &lt;ul class="navbar-nav ml-auto"&gt;
+            &lt;li class="nav-item active"&gt;
+              &lt;a class="nav-link" href="../../../index.html"&gt;Accueil
+                &lt;span class="sr-only"&gt;(current)&lt;/span&gt;
+              &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class="nav-item"&gt;
+              &lt;a class="nav-link" href="#"&gt;A propos&lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li class="nav-item"&gt;
+              &lt;a class="nav-link" href="#"&gt;Contact&lt;/a&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+
+    &lt;!-- Page Content --&gt;
+    &lt;div class="container"&gt;
+
+      &lt;!-- Page Heading --&gt;
+      &lt;h1 class="my-4"&gt;Démonstration 1
+        &lt;small&gt;Page d'erreur 403 de la démonstration 1&lt;/small&gt;
+      &lt;/h1&gt;
+	
+	 &lt;div class="demo"&gt;&lt;a role="button" class="btn btn-warning btn-lg" href="demonstrations/demonstration1.html"&gt;Revenir à la démonstration 1&lt;/a&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;!-- /.container --&gt;
+
+    &lt;!-- Footer --&gt;
+    &lt;footer class="py-5 bg-dark footer-demodule"&gt;
+      &lt;div class="container"&gt;
+        &lt;p class="m-0 text-center text-white"&gt;Copyright &copy; ENI Ecole 2018&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;!-- /.container --&gt;
+    &lt;/footer&gt;
+
+    &lt;!-- Bootstrap core JavaScript --&gt;
+    &lt;script src="../../vendor/jquery/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+ 
+&lt;/body&gt;
+
+&lt;/html&gt;
+						</code>
+					</pre>
+			</ol>
+      
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

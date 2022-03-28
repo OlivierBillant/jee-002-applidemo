@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 9</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 4
+        <small>Une réponse JSON</small>
+      </h1>
+	
+	 	<h2>Concept</h2>
+		<p>
+			C'est un peu plus compliqué :
+			<ol>
+				<li>
+					L'implémentation JAX-RS ne supporte pas par défaut le JSON. 
+					Il faut ajouter des librairies apportant un MessageBodyWriter pour le format JSON.
+				</li>
+				<li>
+					Une requête émise par le navigateur ne demande pas par défaut un contenu au format JSON. 
+					Il faut donc utiliser la technologie AJAX pour spécifier explicitement le format attendu.
+				</li>
+			</ol>
+		</p>
+		<p>
+			Le lien suivant pointe vers la page HTML reponseJSON.html permettant d'effectuer une requête AJAX en demandant un format JSON en retour:
+		  	<a href="reponseJSON.html">reponseJSON.html</a>.
+		</p>
+		<p>
+			Voici la structure de la requête:
+		</p>
+		<img src="../images/entete_requete_json.png"/>
+		
+		<h2>Référencer les libraires pour l'usage du JSON</h2>
+		
+		<p>Copier les librairies suivantes dans le répertoire WEB-INF\lib de votre application:</p>
+		<img src="../images/librairiesJSON.png">
+		
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>reponseJSON.html</li>
+				<p>
+					C'est l'unique fichier à créer en plus par rapport à la réponse XML. 
+				</p>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;title&gt;Obtenir une réponse au format JSON&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;
+		Le bouton suivant permet d'obtenir d'effectuer une requête AJAX et d'obtenir une réponse au format JSON.
+		La requête pointe vers l'URL /modules/module9/rest/crayons.
+	&lt;/p&gt;
+	&lt;div&gt;
+		&lt;input type="button" value="Exécuter" onclick="executerRequete()" /&gt;
+	&lt;/div&gt;
+	
+	&lt;div id="succes" style="color:green"&gt;&lt;/div&gt;
+	&lt;div id="echec" style="color:red"&gt;&lt;/div&gt;
+	
+	&lt;div&gt;
+		&lt;a href="demonstration3.html#JSON"&gt;Retour&lt;/a&gt;
+	&lt;/div&gt;
+	
+	
+	
+	&lt;script type="text/javascript"&gt;
+	function createXHR() {
+	    if (window.XMLHttpRequest)    //  Objet standard
+	    {
+	        xhr = new XMLHttpRequest();     //  Firefox, Safari, ...
+	    }
+	    else if (window.ActiveXObject)      //  Internet Explorer
+	    {
+	        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    return xhr;
+	}
+
+	function executerRequete()
+	{
+	    var xhr = createXHR();
+	    xhr.onreadystatechange = function()
+	    {
+	        if (xhr.readyState == 4)
+	        {
+	            if (xhr.status == 200)
+	            {
+	            	succes(xhr.responseText);//xhr.responseXML si réponse au format XML
+	            }
+	            else
+	            {
+	                echec(xhr.status, xhr.responseText);
+	            }
+	        }
+	    };
+
+	    xhr.open("GET", "/AppliDemo/modules/module9/rest/crayons", true);
+	    xhr.setRequestHeader("Accept","application/json");
+	    xhr.send(null);
+	}	
+	
+	function succes(reponse)
+	{
+		document.getElementById("succes").innerHTML=reponse;
+		document.getElementById("echec").innerHTML="";
+	}
+	
+	function echec(codeReponse, reponse)
+	{
+		document.getElementById("echec").innerHTML=reponse;
+		document.getElementById("succes").innerHTML="";
+	}
+	
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+					</code>
+				 </pre>
+			</ol>		
+				
+      
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+
+</head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 9</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">TP 1
+        <small>Prise de notes</small>
+      </h1>
+	
+	 <h2>Enoncé</h2>
+	 
+	 <p>A partir d'un nouveau Dynamic Web Project, créer l'application suivante.</p>
+	 <h3>Description fonctionnelle</h3>
+	 <p>
+	 	L'application permet à un utilisateur de gérer simplement ses prises de notes. 
+		Il doit pouvoir réaliser les actions suivantes sur un seul écran :
+	 	<ul>
+	 		<li>Visualiser l'ensemble de ses notes par ordre chronologique (de la plus récente à la plus ancienne).</li>
+	 		<li>Ajouter une note. La liste se met automatiquement à jour.</li>
+	 		<li>Modifier une note. La liste se met automatiquement à jour. Pas de demande de confirmation.</li>
+	 		<li>Supprimer une note. La liste se met automatiquement à jour. Pas de demande de confirmation.</li>
+	 	</ul>
+	 	Proposition de maquette : 
+	 	<br/>
+	 	<img src="../images/TP1_JAVA_EE_Module9.png"/>
+	 </p>
+	 <h3>Eléments d'architecture</h3>
+     <p>
+     	L'application se nomme TPPriseDeNotes.
+     </p>
+	 <p>
+		Mettre en œuvre une architecture adaptée.
+		<ul>
+			<li>Les notes sont sauvegardées en base de données.</li>
+			<li>Porter un effort particulier sur la partie Javascript pour organiser au mieux le code.</li>
+		<ul>
+	 </p>
+     
+     <h3>Étapes</h3>
+	     <p>
+	     	Les étapes, par ordre de priorité :
+	     	<ol>
+	     		<li>Étape obligatoire : Mettre en place un web service REST restituant une liste de notes au format JSON.</li>
+	     		<li>Étape obligatoire : Afficher cette liste dans une page web.</li>
+	     		<li>Étape obligatoire : Permettre l'ajout d'une note en utilisant les technologies AJAX/Web Service REST.</li>
+	     		<li>Finaliser l'application</li>
+	     	</ol>
+	     </p>
+
+     		
+	 
+      
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

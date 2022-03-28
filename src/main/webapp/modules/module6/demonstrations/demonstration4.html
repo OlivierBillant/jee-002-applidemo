@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 6</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 4
+        <small>Les balises JSTL</small>
+      </h1>
+	
+		<h2>Le référencement de la librairie JSTL</h2>
+		<p>
+			Copier la librairie JSTL dans le répertoire /WEB-INF/lib.
+		</p>
+		<img src="../images/librairieJSTL.png"/>
+		
+		
+		<h2>L'affichage de données</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet CREANT OU PAS un objet de type Voiture qui est ensuite placé en attribut de requête.
+		  	Cette servlet crée aussi une liste de voitures qui est placé en attribut de requête.
+		  	Elle délègue ensuite l'affichage à la page pageBalisesJSTL.jsp:
+		  	<a href="../ServletBalisesJSTL">/modules/module6/ServletBalisesJSTL</a>.
+		</p>
+		<p>
+			La page pageBalisesJSTL.jsp est dans le répertoire /WEB-INF/modules/module6.
+		</p>		
+		
+		
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>ServletBalisesJSTL</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module6;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.eni.javaee.module6.bo.Voiture;
+
+/**
+ * Servlet implementation class ServletExpressionLanguage
+ */
+@WebServlet("/modules/module6/ServletBalisesJSTL")
+public class ServletBalisesJSTL extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletBalisesJSTL() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Random random = new Random();
+		if(random.nextBoolean())
+		{
+			Voiture voiture = new Voiture("RENAULT","ZOE","AA123BB", 5236);
+			request.setAttribute("voiture", voiture);
+		}
+		
+		List&lt;Voiture&gt; voitures = new ArrayList&lt;&gt;();
+		voitures.add(new Voiture("AUDI","RS6","AZ456QS", 46434));
+		voitures.add(new Voiture("MERCEDES","CLASSE C","ER789DF",5319));
+		voitures.add(new Voiture("PEUGEOT","308","CV345TY",134567));
+		request.setAttribute("voitures", voitures);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modules/module6/pageBalisesJSTL.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+						</code>
+					</pre>
+				
+				<li>pageBalisesJSTL.jsp</li>
+					<pre class="prettyprint">
+					 	<code class="language-html">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Page affichant une voiture ou un message si elle n'existe pas&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;Cette page affiche des données avec les balises JSTL et l'EL&lt;/h1&gt;
+	&lt;a href=""&gt;Rafraichir&lt;/a&gt;
+	&lt;h2&gt;Affichage ou non d'une voiture&lt;/h2&gt;
+	&lt;c:if test="${!empty voiture}"&gt;
+		&lt;ul&gt;
+			&lt;li&gt;
+				Marque:${voiture.marque}
+			&lt;/li&gt;
+			&lt;li&gt;
+				Modèle:${voiture.modele}
+			&lt;/li&gt;
+			&lt;li&gt;
+				Immatriculation:${voiture.immatriculation}
+			&lt;/li&gt;
+			&lt;li&gt;
+				Kilométrage:${voiture.kilometrage}
+			&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/c:if&gt;
+	&lt;c:if test="${empty voiture}"&gt;
+		&lt;p&gt;La voiture n'existe pas&lt;/p&gt;
+	&lt;/c:if&gt;
+	
+	&lt;h2&gt;Affichage d'une liste de voitures&lt;/h2&gt;
+	&lt;p&gt;
+		il y a ${voitures.size()} voitures.
+	&lt;/p&gt;
+	&lt;ol&gt;
+		&lt;c:forEach var="v" items="${voitures}"&gt;
+			&lt;li&gt;
+				${v.toString()}
+			&lt;/li&gt;
+		&lt;/c:forEach&gt;
+	&lt;/ol&gt;
+	&lt;a href="demonstrations/demonstration4.html"&gt;Retour&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+						</code>
+					</pre>
+
+			</ol>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+
+</head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 6</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">TP 1
+        <small>Gérer des listes de courses</small>
+      </h1>
+	
+	 <h2>Enoncé</h2>
+	 
+	 <p>A partir d'un nouveau Dynamic Web Project, créer l'application suivante.</p>
+	 <h3>Description fonctionnelle</h3>
+	 <p>
+	 	L'application permet à un utilisateur de gérer des listes de courses et de les utiliser en magasin (il coche l'article sur la liste quand il le met dans son panier).	
+	 </p>
+	 <p>
+	 	Voici les maquettes des écrans attendus (Attention, les servlets ne sont pas représentées) :
+	 	<img src="../images/TP1_JAVA_EE_Module6.png"/>
+	 </p>
+	 <p>
+		L'écran de gauche permet de créer une nouvelle liste de courses. 
+		L'écran du milieu permet de gérer les listes existantes (créées à partir de l'écran de gauche). 
+		L'écran de droite est utilisé dans le magasin : en partant d'une liste prédéfinie l'utilisateur coche au fur et à mesure les articles qu'il met physiquement dans son panier. 
+	 </p>
+	 
+	 <h3>Eléments d'architecture</h3>
+     <p>
+     	L'application se nomme TPGestionListesCourses.
+     </p>
+     <p>
+     	Mettez en oeuvre une architecture adaptée.
+     </p>
+     
+     <h3>Étapes</h3>
+     <p>
+     	Les étapes, par ordre de priorité :
+     	<ol>
+     		<li>Étape obligatoire : En partant d'une base de données alimentée manuellement, afficher les listes de courses disponibles (Ecran Listes prédéfinies).</li>
+     		<li>Étape obligatoire : Gérer les erreurs potentielles sur l'écran des Listes prédéfinies.</li>
+     		<li>Sur l'écran des Listes prédéfinies, gérer la suppression d'une liste avec rafraîchissement de l'écran.</li>
+     		<li>Mettre en place l'ajout d'une nouvelle liste sans gestion des erreurs de saisie (Ecran Nouvelle liste).</li>
+     		<li>Sur le formulaire d'ajout de l'écran Nouvelle liste, mettre en place la gestion des erreurs de saisies.</li>
+     		<li>Mettre en place la gestion de l'utilisation d'une liste (Ecran Votre panier).</li>
+     	</ol>
+     </p>
+
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	  Aide
+	</button>
+     <div class="modal fade" id="exampleModal">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Indice</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <p><a href="listes.html" target="_blank">Proposition de template</a></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+     
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

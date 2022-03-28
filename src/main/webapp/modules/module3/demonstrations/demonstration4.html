@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-gt navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 3</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 4
+        <small>Les éléments de script</small>
+      </h1>
+		<p>
+		  	Le lien suivant pointe sur la JSP presentationElementsDeScript.jsp.
+		  	Elle est directement accessible car elle n'est pas dans le WEB-INF.
+		  	<a href="presentationElementsDeScript.jsp">/modules/module3/demonstrations/presentationElementsDeScript.jsp</a>
+		</p>
+		
+		<p>
+			Voici le code de la JSP :
+		</p>
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%!
+	//Déclarations
+	private int nombreAppel;
+
+	private int getNombreAppel()
+	{
+		return this.nombreAppel;
+	}
+	private void setNombreAppel(int nombreAppel)
+	{
+		this.nombreAppel=nombreAppel;
+	}
+%&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Présentation des éléments de script&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;%
+	//Scriplets
+	this.setNombreAppel(this.getNombreAppel()+1);
+%&gt;
+
+Nombre d'appel de la JSP : 
+&lt;input type="text" value="&lt;%=this.getNombreAppel()%&gt;"/&gt;
+&lt;a href="presentationElementsDeScript.jsp"&gt;Actualiser&lt;/a&gt;
+&lt;a href="demonstration4.html"&gt;Retour&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+		</code>
+	 </pre>
+     
+    <p>
+    	Voici le code java généré :
+    </p>
+    
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+public final class presentationElementsDeScript_jsp extends org.apache.jasper.runtime.HttpJspBase
+{
+	//Déclarations
+	private int nombreAppel;
+
+	private int getNombreAppel()
+	{
+		return this.nombreAppel;
+	}
+	private void setNombreAppel(int nombreAppel)
+	{
+		this.nombreAppel=nombreAppel;
+	}
+
+	//...
+
+	public void _jspService(...) {
+		//...
+		out.write("&lt;html&gt;");
+		//...
+		//Scriplets
+		this.setNombreAppel(this.getNombreAppel()+1);
+		//...
+		out.print(this.getNombreAppel());
+		//...
+	}
+}    
+		</code>
+	 </pre>
+ 
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

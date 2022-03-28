@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 10</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 3
+        <small>L'attribution d'un nom de domaine</small>
+      </h1>
+	 
+	 <h3>Configuration du nom de domaine</h3>
+	 <p>
+	 	Dans le cadre du cours la configuration du nom de domaine est réalisé dans le fichier hosts (C:\Windows\System32\drivers\etc) comme ceci:
+	 </p>
+	 <div><img src="../images/configuration_fichier_hosts.png"/></div>
+
+	<h3>Paramétrage du serveur Tomcat</h3>
+	
+	<p>
+		Voici la configuration à réaliser dans le fichier server.xml pour que l'application soit accessible au travers de l'URL <a href="http://www.javaee.eni.fr" target="_blank">www.javaee.eni.fr</a>
+	</p>
+	<p>
+		Observez les 3 modifications apportées:
+		<ol>
+			<li>La modification de l'attribut name de la balise &lt;Host&gt; avec le nom de domaine voulu.</li>
+			<li>La modification de l'attribut path de la balise &lt;Constext&gt; pour que l'application soit accessible directement avec le nom de domaine.</li>
+			<li>La modification de l'attribut defaultHost de la balise &lt;Engine&gt; afin d'avoir un comportement cohérent en de requête émise avec une adresse ip au lien d'un nom de domaine.</li>
+		</ol>
+	</p>
+	
+	 <pre class="prettyprint">
+	 	<code class="language-xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Server port="-1" shutdown="SHUTDOWN"&gt;
+  &lt;Listener className="org.apache.catalina.startup.VersionLoggerListener" /&gt;
+  &lt;Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" /&gt;
+  &lt;Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" /&gt;
+  &lt;Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" /&gt;
+  &lt;Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" /&gt;
+
+	&lt;Service name="Catalina"&gt;
+
+		&lt;Connector port="80" protocol="HTTP/1.1"/&gt;
+
+		&lt;Engine name="Catalina" defaultHost="www.javaee.eni.fr"&gt;
+
+			&lt;Host 	name="www.javaee.eni.fr"  
+					appBase="applis_localhost"
+					unpackWARs="true" 
+					autoDeploy="false"
+					deployOnStartup="false"&gt;
+
+				&lt;Context docBase="AppliDemo.war" path=""&gt;
+			
+				&lt;/Context&gt;
+			&lt;/Host&gt;
+		&lt;/Engine&gt;
+	&lt;/Service&gt;
+&lt;/Server&gt;
+		</code>
+	 </pre>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

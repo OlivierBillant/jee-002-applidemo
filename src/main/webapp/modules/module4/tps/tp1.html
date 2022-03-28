@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  
+</head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 4</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">TP 1
+        <small>Suivi des repas</small>
+      </h1>
+	
+	 
+      <h2>Enoncé</h2>
+	 
+	 <p>A partir d'un nouveau Dynamic Web Project, créer l'application suivante.</p>
+	 <h3>Description fonctionnelle</h3>
+	 <p>
+	 	L'application doit permettre à un utilisateur d'enregistrer ses repas au fil des jours dans un but de consultation.
+	 </p>
+	 <h3>Eléments d'architecture</h3>
+     <p>
+     	L'application se nomme TPSuiviDesRepas.
+     </p>
+     <p>
+     	Mettre en œuvre une architecture correspondant à celle présentée en cours.
+     	<ul>
+     		<li>
+     			La base de données est composée de deux tables : 
+				une table REPAS pour stocker la date et l'heure du repas. 
+				Une table ALIMENTS pour enregistrer le nom des aliments (un enregistrement par aliment par repas).
+     		</li>
+     		<li>	
+     			Un formulaire de saisie permet l'ajout d'un nouveau repas. 
+				Ce formulaire est composé de trois champs. 
+				Un champ pour la date, un champ pour l'heure et un dernier champ pour les aliments. 
+				Les aliments sont saisis dans une seule zone. La virgule sert de séparateur. 
+				Charge à vous de faire le traitement nécessaire côté serveur.
+     		</li>
+     		<li>
+     			Un formulaire permet d'afficher les repas déjà saisis par ordre chronologique du plus récent au plus ancien. 
+				Une seule requête SQL doit permettre de sélectionner les informations à afficher.
+     		</li>
+     		<li>
+     			Proposition de maquette :
+     			<img src="../images/TP1_JAVA_EE_Module4.png"/>
+     		</li>
+     	</ul>
+     </p>
+     
+          <h3>Étapes</h3>
+     <p>
+     	Les étapes, par ordre de priorité :
+     	<ol>
+     		<li>Étape obligatoire : Mettre en place la navigation.</li>
+     		<li>Étape obligatoire : Réaliser l'écran d'ajout sans gestion des erreurs.</li>
+     		<li>Réaliser l'écran d'affichage de la liste sans gestion des erreurs.</li>
+     		<li>Mettre en place une gestion des erreurs fonctionnelles sur l'écran d'ajout.</li>
+     		<li>5.	Mettre en place une gestion avancée des erreurs techniques.</li>
+     	</ol>
+     </p>
+     
+     <h3>Pour aller plus loin</h3>
+     <p>
+     	Réaliser un formulaire permettant de filtrer sur les repas d'une journée. 
+		Gérer le cas où aucun repas n'est disponible pour le jour sélectionné.
+     </p>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

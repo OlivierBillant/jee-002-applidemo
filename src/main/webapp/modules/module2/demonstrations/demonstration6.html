@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 2</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 6
+        <small>Rediriger la réponse</small>
+      </h1>
+	
+	
+		<h2>Redirection permanente (301)</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet provoquant une redirection permanente vers Google (faites un F12 avant de cliquer pour voir le résulat. Lors du 2ème test, le navigateur utilise le résultat du premier appel pour aller directement vers google.fr) :
+		  	<a href="../ServletRedirectionPermanente">/modules/module2/ServletRedirectionPermanente</a>
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module2;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletRedirectionPermanente
+ */
+@WebServlet("/modules/module2/ServletRedirectionPermanente")
+public class ServletRedirectionPermanente extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletRedirectionPermanente() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+		response.setHeader("Location", "http ://google.fr");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+
+	
+		<h2>Redirection temporaire (302)</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet provoquant une redirection temporaire vers google (faites un F12 avant de cliquer pour voir le résulat. Lors du 2ème test, le navigateur tente de nouveau d'accéder à la ressource) :
+		  	<a href="../ServletRedirectionTemporaire">/modules/module2/ServletRedirectionTemporaire</a>
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module2;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletRedirectionTemporaire
+ */
+@WebServlet("/modules/module2/ServletRedirectionTemporaire")
+public class ServletRedirectionTemporaire extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletRedirectionTemporaire() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("http ://www.google.fr");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+      
+
+
+		<h2>Répondre une erreur</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet renvoyant une erreur 500 :
+		  	<a href="../ServletRenvoyantErreur500">/modules/module2/ServletRenvoyantErreur500</a>
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module2;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletRenvoyantErreur500
+ */
+@WebServlet("/modules/module2/ServletRenvoyantErreur500")
+public class ServletRenvoyantErreur500 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletRenvoyantErreur500() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+	 
+      <p>Voici le paramétrage dans le fichier web.xml :</p>
+
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+&lt;error-page&gt;
+	&lt;error-code&gt;500&lt;/error-code&gt;
+	&lt;location&gt;/modules/module2/demonstrations/erreur500.html&lt;/location&gt;
+&lt;/error-page&gt;
+		</code>
+	 </pre>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

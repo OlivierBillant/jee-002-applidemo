@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 6</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 3
+        <small>L'Expression Language (EL)</small>
+      </h1>
+	
+		<h2>L'affichage de données</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une servlet CREANT OU PAS un objet de type Voiture qui est ensuite placé en attribut de requête 
+		  	avant une délégation à la page pageExpressionLanguage.jsp pour l'affichage:
+		  	<a href="../ServletExpressionLanguage">/modules/module6/ServletExpressionLanguage</a>.
+		</p>
+		<p>
+			La page pageExpressionLanguage.jsp est dans le répertoire /WEB-INF/modules/module6.
+		</p>		
+		
+		
+		<h2>Source des différents fichiers</h2>
+		
+			<ol>
+				<li>ServletExpressionLanguage</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+package fr.eni.javaee.module6;
+
+import java.io.IOException;
+import java.util.Random;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import fr.eni.javaee.module6.bo.Voiture;
+
+/**
+ * Servlet implementation class ServletExpressionLanguage
+ */
+@WebServlet("/modules/module6/ServletExpressionLanguage")
+public class ServletExpressionLanguage extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletExpressionLanguage() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Random random = new Random();
+		if(random.nextBoolean())
+		{
+			Voiture voiture = new Voiture("RENAULT","ZOE","AA123BB", 5236);
+			request.setAttribute("voiture", voiture);
+		}
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/modules/module6/pageExpressionLanguage.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+						</code>
+					</pre>
+				
+				<li>pageExpressionLanguage.jsp</li>
+					<pre class="prettyprint">
+					 	<code class="language-java">
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Page affichant une voiture&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;Cette page affiche une voiture avec l'Expression Language si elle a été créée&lt;/h1&gt;
+	&lt;a href=""&gt;Rafraichir&lt;/a&gt;
+	&lt;p&gt;
+		Remarquez l'absence de valeurs nulles si la voiture n'est pas créée.
+	&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;
+			Marque:${requestScope['voiture'].marque}
+		&lt;/li&gt;
+		&lt;li&gt;
+			Modèle:${requestScope.voiture.modele}
+		&lt;/li&gt;
+		&lt;li&gt;
+			Immatriculation:${voiture.immatriculation}
+		&lt;/li&gt;
+		&lt;li&gt;
+			Kilométrage:${voiture.kilometrage}
+		&lt;/li&gt;
+	&lt;/ul&gt;
+	&lt;a href="demonstrations/demonstration3.html"&gt;Retour&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+						</code>
+					</pre>
+
+			</ol>
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 2</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 8
+        <small>Les paramètres d'initialisation </small>
+      </h1>
+      
+      <h2>Un paramètre d'initialisation dans le fichier web.xml</h2>
+      
+      <p>
+      	Voici le paramétrage à réaliser dans le fichier web.xml pour mettre en place un
+      	paramètre d'initialisation pour la servlet ServletAvecParametreInitialisationWebXML : 
+      </p>
+	
+	 <pre class="prettyprint">
+	 	<code class="language-xml">
+&lt;servlet&gt;
+	&lt;description&gt;Servlet Module 2 Démonstration 8&lt;/description&gt;
+  	&lt;servlet-name&gt;ServletAvecParametreInitialisationWebXML&lt;/servlet-name&gt;
+  	&lt;servlet-class&gt;fr.eni.javaee.module2.ServletAvecParametreInitialisationWebXML&lt;/servlet-class&gt;
+  
+  	&lt;init-param&gt;
+  		&lt;description&gt;Un paramètre d'initialisation&lt;/description&gt;
+  		&lt;param-name&gt;NOM_PARAMETRE&lt;/param-name&gt;
+  		&lt;param-value&gt;VALEUR_PARAMETRE&lt;/param-value&gt;
+  	&lt;/init-param&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping
+	&lt;servlet-name&gt;ServletAvecParametreInitialisationWebXML&lt;/servlet-name&gt;
+  	&lt;url-pattern&gt;/modules/module2/ServletAvecParametreInitialisationWebXML&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+		</code>
+	 </pre>
+      
+		<p>
+		  	Le lien suivant pointe vers la servlet ServletAvecParametreInitialisationWebXML. Elle lit le paramètre d'initialisation une seule fois au travers de la méthode init() :
+		  	<a href="../ServletAvecParametreInitialisationWebXML">/modules/module2/ServletAvecParametreInitialisationWebXML</a>
+		  	
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+		
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module2;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletAvecParametreInitialisationWebXML
+ */
+public class ServletAvecParametreInitialisationWebXML extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private String valeurParametre;
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletAvecParametreInitialisationWebXML() {
+        super();
+    }
+
+    @Override
+    public void init() throws ServletException {
+    	this.valeurParametre=this.getInitParameter("NOM_PARAMETRE");
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().append("NOM_PARAMETRE = ").append(this.valeurParametre);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+
+
+      <h2>Un paramètre d'initialisation configuré par annotation</h2>
+
+		<p>
+		  	Le lien suivant pointe vers la servlet ServletAvecParametreInitialisationAnnotation. Elle lit le paramètre d'initialisation une seule fois au travers de la méthode init() :
+		  	<a href="../ServletAvecParametreInitialisationAnnotation">/modules/module2/ServletAvecParametreInitialisationAnnotation</a>
+		  	
+		</p>
+		
+		<p>Voici le code de la servlet :</p>
+
+	 <pre class="prettyprint">
+	 	<code class="language-java">
+package fr.eni.javaee.module2;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletAvecParametreInitialisationAnnotation
+ */
+@WebServlet
+(
+		urlPatterns="/modules/module2/ServletAvecParametreInitialisationAnnotation",
+		initParams= {@WebInitParam(name="NOM_PARAMETRE",value="VALEUR_PARAMETRE")}
+)
+public class ServletAvecParametreInitialisationAnnotation extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    private String valeurParametre;   
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletAvecParametreInitialisationAnnotation() {
+        super();
+    }
+
+    @Override
+    public void init() throws ServletException {
+    	this.valeurParametre=this.getInitParameter("NOM_PARAMETRE");
+    }
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().append("NOM_PARAMETRE : ").append(this.valeurParametre);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+		</code>
+	 </pre>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>

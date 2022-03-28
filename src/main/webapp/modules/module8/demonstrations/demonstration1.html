@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Application de démonstration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../../css/4-col-portfolio.css" rel="stylesheet">
+    
+    <!-- Google code prettify -->
+	<link rel="stylesheet" type="text/css" href="../../../vendor/google-code-prettify/prettify.css">
+	
+  </head>
+
+  <body onload="PR.prettyPrint()">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../module.html">Application de démonstration - Module 8</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="../../../index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">A propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Démonstration 1
+        <small>La traduction des messages</small>
+      </h1>
+	
+	 	<h2>Afficher des messages en lien avec la langue choisie</h2>
+		
+		<p>
+		  	Le lien suivant pointe vers une JSP affichant le contenu avec la langue du navigateur ou la langue par défaut si les langues du navigateur ne sont pas disponibles:
+		  	<a href="../internationalisationMessages?nom=Archibald">/modules/module8/internationalisationMessages?nom=Archibald</a>.
+		</p>
+
+		<p>
+		  	Le lien suivant pointe vers une JSP affichant le contenu avec la langue anglaise :
+		  	<a href="../internationalisationMessages?langue=en&nom=Charles">/modules/module8/internationalisationMessages?langue=en&nom=Charles</a>.
+		</p>
+      
+		<p>
+		  	Le lien suivant pointe vers une JSP affichant le contenu avec la langue par défaut (car le chinois n'existe pas dans l'application):
+		  	<a href="../internationalisationMessages?langue=zh&nom=Kim">/modules/module8/internationalisationMessages?langue=zh&nom=Kim</a>.
+		</p>
+
+		<h2>Source des différents fichiers</h2>
+
+			<ol>
+				<li>mes_messages.properties</li>
+				 <pre class="prettyprint">
+				 	<code class="language-java">
+msg_bonjour=Bonjour {0}!
+msg_bonheur=Je suis heureux!
+					</code>
+				 </pre>
+	
+				<li>mes_messages_en.properties</li>
+				 <pre class="prettyprint">
+				 	<code class="language-java">
+msg_bonjour=Hello {0}!
+msg_bonheur=I am happy
+					</code>
+				 </pre>
+
+				<li>internationalisationMessages.jsp présent dans le répertoire /WEB-INF/modules/module8</li>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;%@page import="java.util.Locale"%&gt;
+&lt;%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+&lt;%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Internationalisation des messages&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;c:if test="${!empty param.langue}"&gt;
+		&lt;!-- Définition de la Locale à utiliser --&gt;
+		&lt;fmt:setLocale value="${param.langue}"/&gt;
+	&lt;/c:if&gt;
+	
+	&lt;p&gt;
+		&lt;!-- Définition des fichiers ressources à utiliser --&gt;
+		&lt;fmt:bundle basename="fr.eni.javaee.module8.mes_messages"&gt;
+			&lt;fmt:message key="msg_bonheur"&gt;&lt;/fmt:message&gt;
+		&lt;/fmt:bundle&gt;
+	&lt;/p&gt;
+	
+	&lt;p&gt;
+		&lt;fmt:setBundle basename="fr.eni.javaee.module8.mes_messages" var="r"/&gt;
+		&lt;!-- Lecture d'un message --&gt;
+		&lt;fmt:message key="msg_bonjour" bundle="${r}"&gt;
+			&lt;fmt:param value="${param.nom}"&gt;&lt;/fmt:param&gt;
+		&lt;/fmt:message&gt;
+	&lt;/p&gt;
+			
+	&lt;p&gt;
+		&lt;a href="demonstrations/demonstration1.html"&gt;Retour&lt;/a&gt;
+	&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+					</code>
+				 </pre>
+
+				<li>web.xml pour la configuration de l'accès à la JSP</li>
+				 <pre class="prettyprint">
+				 	<code class="language-xml">
+&lt;servlet&gt;
+  	&lt;servlet-name&gt;JSPInternationalisationMessages&lt;/servlet-name&gt;
+  	&lt;jsp-file&gt;/WEB-INF/modules/module8/internationalisationMessages.jsp&lt;/jsp-file&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+	&lt;servlet-name&gt;JSPInternationalisationMessages&lt;/servlet-name&gt;
+	&lt;url-pattern&gt;/modules/module8/internationalisationMessages&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+					</code>
+				 </pre>
+
+
+				<li>mes_messages_fr.properties pour une meilleure gestion de la langue par défaut</li>
+				 <pre class="prettyprint">
+				 	<code class="language-java">
+#Ce fichier est ajouté à la fin de la démonstration pour palier le problème suivant:
+#Si dans Accept-Language, il y a "fr" puis "en" ça s'affiche en anglais car c'est la meilleure langue trouvée.
+#Tomcat, ne sait pas que la langue par défaut est l'anglais
+msg_bonjour=Bonjour {0}!
+msg_bonheur=Je suis heureux!
+					</code>
+				 </pre>
+
+
+			</ol>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark footer-demodule">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ENI Ecole 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ 	<!-- Google code prettify -->
+	<script type="text/javascript" src="../../../vendor/google-code-prettify/prettify.js"></script>
+
+  </body>
+
+</html>
